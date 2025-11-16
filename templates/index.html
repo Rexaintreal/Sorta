@@ -7,30 +7,139 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/logo.ico') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body class="bg-[#000000] text-[#f2f2f2]">
+<body class=""bg-[#000000] text-[#f2f2f2]>
     <nav class="border-b border-[#888688]/20 py-6">
         <div class="max-w-7xl mx-auto px-8 flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Sorta Logo" class="h-10 w-10">
                 <span class="text-2xl font-bold">Sorta</span>
             </div>
-            <div class="flex items-center gap-8">
-                <a href="https://github.com/Rexaintreal/Sorta" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
-                    <i class="fab fa-github"></i>
-                    <span>GitHub</span>
-                </a>
-                <a href="https://saurabhcodesawfully.pythonanywhere.com/" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Portfolio</span>
-                </a>
-                <a href="https://axiom.hackclub.com/" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
-                    <i class="fas fa-cube"></i>
-                    <span>Axiom</span>
-                </a>
+            <div class="flex items-center gap-6">
+                <a href="/bubble" class="text-[#888688] hover:text-[#F2F2F2] transition-colors">Bubble Sort</a>
+                <a href="/selection" class="text-[#888688] hover:text-[#F2F2F2] transition-colors">Selection Sort</a>
+                <a href="/insertion" class="text-[#888688] hover:text-[#F2F2F2] transition-colors">Insertion Sort</a>
+                <a href="/merge" class="text-[#888688] hover:text-[#F2F2F2] transition-colors">Merge Sort</a>
+                <a href="/quick" class="text-[#888688] hover:text-[#F2F2F2] transition-colors">Quick Sort</a>
+                <a href="/heap" class="text-[#888688] hover:text-[#F2F2F2] transition-colors">Heap Sort</a>
             </div>
         </div>
     </nav>
-    
+    <section class="max-w-7xl mx-auto px-8 py-16 text-center">
+        <h1 class="text-7xl font-bold mb-6">Sorta</h1>
+        <p class="text-[#888688] text-xl max-w-3xl mx-auto mb-8">
+            Visualize sorting alogrithms with step by step animations and explore various techniques using Sorta. This Project was made for the Axiom YSWS 
+        </p>
+        <div class="flex items-center justify-center gap-6 text-sm">
+            <a href="https://github.com/Rexaintreal/Sorta" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <span class="text-[#888688]">•</span>
+            <a href="https://saurabhcodesawfully.pythonanywhere.com/" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
+                <i class="fas fa-briefcase"></i>
+                <span>Portfolio</span>
+            </a>
+            <span class="text-[#888688]">•</span>
+            <a href="https://axiom.hackclub.com/" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
+                <i class="fas fa-cube"></i>
+                <span>Axiom</span>
+            </a>
+        </div>
+    </section>
+    <div class="max-w-7xl mx-auto px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <a href="/bubble" class="block bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-8 hover:border-[#DADADA]/40 hover:bg-[#111111] transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-water text-2xl text-[#888688] group-hover:text-[#F2F2F2] transition-colors"></i>
+                    <h2 class="text-2xl font-semibold group-hover:text-[#DADADA] transition-colors">Bubble Sort</h2>
+                </div>
+                <p class="text-[#888688] mb-4">
+                    Bubble sort keeps checking pairs and swapping them if they are in the wrong place it slowly pushes the bigger numbers to the end and the smaller ones to the front
+                </p>
+                <div class="text-[#888688] text-sm">
+                    <span class="font-semibold">Time:</span> O(n²)  
+                    <span class="font-semibold">Space:</span> O(1)
+                </div>
+            </a>
+            <a href="/selection" class="block bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-8 hover:border-[#DADADA]/40 hover:bg-[#111111] transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-hand-pointer text-2xl text-[#888688] group-hover:text-[#F2F2F2] transition-colors"></i>
+                    <h2 class="text-2xl font-semibold group-hover:text-[#DADADA] transition-colors">Selection Sort</h2>
+                </div>
+                <p class="text-[#888688] mb-4">
+                    Selection sort looks through the list finds the smallest number and puts it where it should be it repeats this until everything is in order
+                </p>
+                <div class="text-[#888688] text-sm">
+                    <span class="font-semibold">Time:</span> O(n²) 
+                    <span class="font-semibold">Space:</span> O(1)
+                </div>
+            </a>
+            <a href="/insertion" class="block bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-8 hover:border-[#DADADA]/40 hover:bg-[#111111] transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-arrow-right-to-bracket text-2xl text-[#888688] group-hover:text-[#F2F2F2] transition-colors"></i>
+                    <h2 class="text-2xl font-semibold group-hover:text-[#DADADA] transition-colors">Insertion Sort</h2>
+                </div>
+                <p class="text-[#888688] mb-4">
+                    Insertion sort builds the list step by step it takes one number at a time and slides it into the right spot like arranging cards in your hand
+                </p>
+                <div class="text-[#888688] text-sm">
+                    <span class="font-semibold">Time:</span> O(n²) 
+                    <span class="font-semibold">Space:</span> O(1)
+                </div>
+            </a>
+            <a href="/merge" class="block bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-8 hover:border-[#DADADA]/40 hover:bg-[#111111] transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-code-merge text-2xl text-[#888688] group-hover:text-[#F2F2F2] transition-colors"></i>
+                    <h2 class="text-2xl font-semibold group-hover:text-[#DADADA] transition-colors">Merge Sort</h2>
+                </div>
+                <p class="text-[#888688] mb-4">
+                    Merge sort breaks the list into smaller pieces sorts each part and then joins them back together it is clean fast and works really well for big lists
+                </p>
+                <div class="text-[#888688] text-sm">
+                    <span class="font-semibold">Time:</span> O(n log n) 
+                    <span class="font-semibold">Space:</span> O(n)
+                </div>
+            </a>
+            <a href="/quick" class="block bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-8 hover:border-[#DADADA]/40 hover:bg-[#111111] transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-bolt text-2xl text-[#888688] group-hover:text-[#F2F2F2] transition-colors"></i>
+                    <h2 class="text-2xl font-semibold group-hover:text-[#DADADA] transition-colors">Quick Sort</h2>
+                </div>
+                <p class="text-[#888688] mb-4">
+                    Quick sort picks a random number as a pivot and moves smaller numbers to the left and bigger ones to the right then it repeats this on every side until everything is sorted
+                </p>
+                <div class="text-[#888688] text-sm">
+                    <span class="font-semibold">Time:</span> O(n log n) 
+                    <span class="font-semibold">Space:</span> O(log n)
+                </div>
+            </a>
+            <a href="/heap" class="block bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-8 hover:border-[#DADADA]/40 hover:bg-[#111111] transition-all group">
+                <div class="flex items-center gap-3 mb-4">
+                    <i class="fas fa-layer-group text-2xl text-[#888688] group-hover:text-[#F2F2F2] transition-colors"></i>
+                    <h2 class="text-2xl font-semibold group-hover:text-[#DADADA] transition-colors">Heap Sort</h2>
+                </div>
+                <p class="text-[#888688] mb-4">
+                    Heap sort uses a tree like structure to always keep the biggest number at the top it takes that number out fixes the heap and keeps doing this until the list is sorted            
+                </p>
+                <div class="text-[#888688] text-sm">
+                    <span class="font-semibold">Time:</span> O(n log n) 
+                    <span class="font-semibold">Space:</span> O(1)
+                </div>
+            </a>
+
+        </div>
+    </div>
+    <footer class="border-t border-[#888688]/20 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-8 text-center text-[#888688] text-sm">
+            <p>
+                Made by 
+                <a href="https://saurabhcodesawfully.pythonanywhere.com/" target="_blank" class="text-[#F2F2F2] hover:text-[#DADADA] transition-colors underline">
+                    Saurabh Tiwari
+                </a>
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
