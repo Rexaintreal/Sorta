@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorta</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/logo.ico') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-[#000000] text-[#f2f2f2]">
+    <nav class="border-b border-[#888688]/20 py-6">
+        <div class="max-w-7xl mx-auto px-8 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Sorta Logo" class="h-10 w-10">
+                <span class="text-2xl font-bold">Sorta</span>
+            </div>
+            <div class="flex items-center gap-8">
+                <a href="https://github.com/Rexaintreal/Sorta" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://saurabhcodesawfully.pythonanywhere.com/" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Portfolio</span>
+                </a>
+                <a href="https://axiom.hackclub.com/" target="_blank" class="text-[#888688] hover:text-[#F2F2F2] transition-colors flex items-center gap-2">
+                    <i class="fas fa-cube"></i>
+                    <span>Axiom</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+</body>
+</html>
