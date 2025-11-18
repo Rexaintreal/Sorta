@@ -1,0 +1,343 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Sort - Sorta</title>A
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/logo.ico') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+      .grid-background {
+        background-image:
+          linear-gradient(rgba(136, 134, 136, 0.1) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(136, 134, 136, 0.1) 1px, transparent 1px);
+        background-size: 30px 30px;
+      }
+      .box-wrapper {
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .array-box {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+      }
+      .array-box.lifted {
+        transform: translateY(-60px) scale(1.1);
+        filter: drop-shadow(0 10px 20px rgba(218, 218, 218, 0.2));
+      }
+      .array-box.heapifying {
+        border-color: #FFD93D !important;
+        box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
+      }
+      .array-box.comparing {
+        border-color: #FF6B6B !important;
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+      }
+      .array-box.swapping {
+        border-color: #4ECDC4 !important;
+        box-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+      }
+      .array-box.sorted {
+        border-color: #95E1D3 !important;
+        box-shadow: 0 0 15px rgba(149, 225, 211, 0.3);
+      }
+    </style>
+  </head>
+  <body class="bg-[#000000] text-[#F2F2F2] h-screen overflow-hidden">
+    <div class="border-b border-[#888688]/20 py-4 px-8">
+      <a href="/" class="inline-flex items-center gap-2 text-[#888688] hover:text-[#F2F2F2] transition-colors">
+        <i class="fas fa-arrow-left"></i>
+        <span>Back to Home</span>
+      </a>
+    </div>
+    <div class="flex h-[calc(100vh-73px)]">
+      <div class="w-1/2 flex flex-col border-r border-[#888688]/20">
+        <div class="flex-1 flex flex-col items-center justify-center p-8 relative overflow-visible grid-background">
+          <div id="statusMessage" class="absolute top-12 text-center text-xl font-semibold text-[#DADADA] min-h-[30px]">
+            Ready to sort
+          </div>
+          <div id="arrayContainer" class="flex gap-4 items-end mt-20 flex-wrap justify-center max-w-full relative">
+          </div>
+        </div>
+        <div class="border-t border-[#888688]/20 p-6">
+          <div class="flex gap-3 justify-center flex-wrap mb-2">
+            <button id="stepBack" class="bg-[#DADADA] text-[#000000] px-5 py-2.5 rounded-lg font-semibold hover:bg-[#F2F2F2] transition-all disabled:bg-[#888688] disabled:cursor-not-allowed text-sm flex items-center gap-2">
+              <i class="fas fa-step-backward"></i>
+              <span>Back</span>
+            </button>
+            <button id="playPause" class="bg-[#DADADA] text-[#000000] px-6 py-2.5 rounded-lg font-semibold hover:bg-[#F2F2F2] transition-all text-sm flex items-center gap-2">
+              <i class="fas fa-play"></i>
+              <span>Play</span>
+            </button>
+            <button id="stepForward" class="bg-[#DADADA] text-[#000000] px-5 py-2.5 rounded-lg font-semibold hover:bg-[#F2F2F2] transition-all disabled:bg-[#888688] disabled:cursor-not-allowed text-sm flex items-center gap-2">
+              <span>Forward</span>
+              <i class="fas fa-step-forward"></i>
+            </button>
+            <button id="reset" class="bg-[#1A1A1A] border border-[#888688] text-[#F2F2F2] px-5 py-2.5 rounded-lg font-semibold hover:bg-[#2A2A2A] transition-all text-sm flex items-center gap-2">
+              <i class="fas fa-rotate-right"></i>
+              <span>Reset</span>
+            </button>
+          </div>
+          <div class="text-center text-[#888688] text-xs mt-3">
+            <span id="stepCounter">Step 0 of 0</span>
+          </div>
+        </div>
+      </div>
+      <div class="w-1/2 p-8 overflow-y-auto">
+        <div class="mb-6">
+          <h2 class="text-3xl font-bold mb-2 flex items-center gap-3">
+            <i class="fas fa-layer-group text-[#888688]"></i>
+            Heap Sort
+          </h2>
+          <p class="text-[#888688]">Watch the algorithm sort your array step by step</p>
+        </div>
+        <div class="mb-8 bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-6">
+          <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+            <i class="fas fa-info-circle text-[#888688]"></i>
+            How Heap Sort Works
+          </h3>
+          <p class="text-[#888688] text-sm leading-relaxed mb-3">
+            Heap sort builds a max heap from the array, then repeatedly extracts the maximum element and places it at the end, creating a sorted array from right to left.
+          </p>
+          <div class="text-[#888688] text-sm space-y-2">
+            <p>• Build a max heap from the input array</p>
+            <p>• Extract the root (maximum) to the end</p>
+            <p>• Heapify the remaining elements</p>
+            <p>• Repeat until the array is sorted</p>
+          </div>
+        </div>
+        <div class="mb-6 bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-6">
+          <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <i class="fas fa-sliders text-[#888688]"></i>
+            Array Configuration
+          </h3>
+          <div class="mb-4">
+            <label class="block text-[#888688] mb-2 text-sm font-medium">Array Length (1-10)</label>
+            <input type="number" id="arrayLength" min="1" max="10" value="6" class="w-full bg-[#000000] border border-[#888688] rounded-lg px-4 py-2.5 text-[#F2F2F2] focus:outline-none focus:border-[#DADADA] focus:ring-1 focus:ring-[#DADADA]">
+          </div>
+          <div class="mb-4">
+            <label class="block text-[#888688] mb-2 text-sm font-medium">Array Values (comma separated 0-99)</label>
+            <input type="text" id="arrayValues" value="12, 11, 13, 5, 6, 7" class="w-full bg-[#000000] border border-[#888688] rounded-lg px-4 py-2.5 text-[#F2F2F2] focus:outline-none focus:border-[#DADADA] focus:ring-1 focus:ring-[#DADADA]">
+            <p class="text-[#888688] text-xs mt-2">Try numbers like 64, 34, 25, 12, 22, 11, 90</p>
+          </div>
+          <button id="updateArray" class="w-full bg-[#DADADA] text-[#000000] px-4 py-2.5 rounded-lg font-semibold hover:bg-[#F2F2F2] transition-all">
+            <i class="fas fa-sync-alt mr-2"></i>Update Array
+          </button>
+        </div>
+        <div class="bg-[#0A0A0A] border border-[#888688]/20 rounded-lg p-6">
+          <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <i class="fas fa-code"></i>
+            Implementation
+          </h3>
+          <div class="flex gap-2 mb-4 overflow-x-auto">
+            <button class="lang-tab active px-4 py-2 rounded bg-[#DADADA] text-[#000000] text-sm font-semibold" data-lang="python">Python</button>
+            <button class="lang-tab px-4 py-2 rounded bg-[#1A1A1A] text-[#888688] text-sm font-semibold hover:bg-[#2A2A2A]" data-lang="javascript">JavaScript</button>
+            <button class="lang-tab px-4 py-2 rounded bg-[#1A1A1A] text-[#888688] text-sm font-semibold hover:bg-[#2A2A2A]" data-lang="java">Java</button>
+            <button class="lang-tab px-4 py-2 rounded bg-[#1A1A1A] text-[#888688] text-sm font-semibold hover:bg-[#2A2A2A]" data-lang="cpp">C++</button>
+            <button class="lang-tab px-4 py-2 rounded bg-[#1A1A1A] text-[#888688] text-sm font-semibold hover:bg-[#2A2A2A]" data-lang="rust">Rust</button>
+          </div>
+          <pre id="code-python" class="code-block text-sm leading-relaxed"><code><span class="text-[#888688]"># Heap Sort Algorithm</span>
+<span class="text-[#FF6B6B]">def</span> <span class="text-[#4ECDC4]">heapify</span>(arr, n, i):
+    largest = i
+    left = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">1</span>
+    right = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">2</span>
+    
+    <span class="text-[#FF6B6B]">if</span> left < n <span class="text-[#FF6B6B]">and</span> arr[left] > arr[largest]:
+        largest = left
+    <span class="text-[#FF6B6B]">if</span> right < n <span class="text-[#FF6B6B]">and</span> arr[right] > arr[largest]:
+        largest = right
+    
+    <span class="text-[#FF6B6B]">if</span> largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, largest)
+
+<span class="text-[#FF6B6B]">def</span> <span class="text-[#4ECDC4]">heap_sort</span>(arr):
+    n = <span class="text-[#95E1D3]">len</span>(arr)
+    
+    <span class="text-[#888688]"># Build max heap</span>
+    <span class="text-[#FF6B6B]">for</span> i <span class="text-[#FF6B6B]">in</span> <span class="text-[#95E1D3]">range</span>(n // <span class="text-[#95E1D3]">2</span> - <span class="text-[#95E1D3]">1</span>, -<span class="text-[#95E1D3]">1</span>, -<span class="text-[#95E1D3]">1</span>):
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, i)
+    
+    <span class="text-[#888688]"># Extract elements</span>
+    <span class="text-[#FF6B6B]">for</span> i <span class="text-[#FF6B6B]">in</span> <span class="text-[#95E1D3]">range</span>(n - <span class="text-[#95E1D3]">1</span>, <span class="text-[#95E1D3]">0</span>, -<span class="text-[#95E1D3]">1</span>):
+        arr[<span class="text-[#95E1D3]">0</span>], arr[i] = arr[i], arr[<span class="text-[#95E1D3]">0</span>]
+        <span class="text-[#4ECDC4]">heapify</span>(arr, i, <span class="text-[#95E1D3]">0</span>)
+
+arr = [<span class="text-[#95E1D3]" id="codeArray">12, 11, 13, 5, 6, 7</span>]
+<span class="text-[#4ECDC4]">heap_sort</span>(arr)
+<span class="text-[#95E1D3]">print</span>(arr)</code></pre>
+        <pre id="code-javascript" class="code-block text-sm leading-relaxed hidden"><code><span class="text-[#888688]">// Heap Sort Algorithm</span>
+<span class="text-[#FF6B6B]">function</span> <span class="text-[#4ECDC4]">heapify</span>(arr, n, i) {
+    <span class="text-[#FF6B6B]">let</span> largest = i;
+    <span class="text-[#FF6B6B]">const</span> left = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">1</span>;
+    <span class="text-[#FF6B6B]">const</span> right = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">2</span>;
+    
+    <span class="text-[#FF6B6B]">if</span> (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+    <span class="text-[#FF6B6B]">if</span> (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+    
+    <span class="text-[#FF6B6B]">if</span> (largest !== i) {
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, largest);
+    }
+}
+
+<span class="text-[#FF6B6B]">function</span> <span class="text-[#4ECDC4]">heapSort</span>(arr) {
+    <span class="text-[#FF6B6B]">const</span> n = arr.length;
+    
+    <span class="text-[#888688]">// Build max heap</span>
+    <span class="text-[#FF6B6B]">for</span> (<span class="text-[#FF6B6B]">let</span> i = Math.<span class="text-[#4ECDC4]">floor</span>(n / <span class="text-[#95E1D3]">2</span>) - <span class="text-[#95E1D3]">1</span>; i >= <span class="text-[#95E1D3]">0</span>; i--) {
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, i);
+    }
+    
+    <span class="text-[#888688]">// Extract elements</span>
+    <span class="text-[#FF6B6B]">for</span> (<span class="text-[#FF6B6B]">let</span> i = n - <span class="text-[#95E1D3]">1</span>; i > <span class="text-[#95E1D3]">0</span>; i--) {
+        [arr[<span class="text-[#95E1D3]">0</span>], arr[i]] = [arr[i], arr[<span class="text-[#95E1D3]">0</span>]];
+        <span class="text-[#4ECDC4]">heapify</span>(arr, i, <span class="text-[#95E1D3]">0</span>);
+    }
+}
+
+<span class="text-[#FF6B6B]">const</span> arr = [<span class="text-[#95E1D3]">12, 11, 13, 5, 6, 7</span>];
+<span class="text-[#4ECDC4]">heapSort</span>(arr);
+console.<span class="text-[#4ECDC4]">log</span>(arr);</code></pre>
+        <pre id="code-java" class="code-block text-sm leading-relaxed hidden"><code><span class="text-[#888688]">// Heap Sort Algorithm</span>
+<span class="text-[#FF6B6B]">public class</span> <span class="text-[#4ECDC4]">HeapSort</span> {
+    <span class="text-[#FF6B6B]">static void</span> <span class="text-[#4ECDC4]">heapify</span>(<span class="text-[#FF6B6B]">int</span>[] arr, <span class="text-[#FF6B6B]">int</span> n, <span class="text-[#FF6B6B]">int</span> i) {
+        <span class="text-[#FF6B6B]">int</span> largest = i;
+        <span class="text-[#FF6B6B]">int</span> left = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">1</span>;
+        <span class="text-[#FF6B6B]">int</span> right = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">2</span>;
+        
+        <span class="text-[#FF6B6B]">if</span> (left < n && arr[left] > arr[largest])
+            largest = left;
+        <span class="text-[#FF6B6B]">if</span> (right < n && arr[right] > arr[largest])
+            largest = right;
+        
+        <span class="text-[#FF6B6B]">if</span> (largest != i) {
+            <span class="text-[#FF6B6B]">int</span> temp = arr[i];
+            arr[i] = arr[largest];
+            arr[largest] = temp;
+            <span class="text-[#4ECDC4]">heapify</span>(arr, n, largest);
+        }
+    }
+    
+    <span class="text-[#FF6B6B]">static void</span> <span class="text-[#4ECDC4]">heapSort</span>(<span class="text-[#FF6B6B]">int</span>[] arr) {
+        <span class="text-[#FF6B6B]">int</span> n = arr.length;
+        
+        <span class="text-[#888688]">// Build max heap</span>
+        <span class="text-[#FF6B6B]">for</span> (<span class="text-[#FF6B6B]">int</span> i = n / <span class="text-[#95E1D3]">2</span> - <span class="text-[#95E1D3]">1</span>; i >= <span class="text-[#95E1D3]">0</span>; i--)
+            <span class="text-[#4ECDC4]">heapify</span>(arr, n, i);
+        
+        <span class="text-[#888688]">// Extract elements</span>
+        <span class="text-[#FF6B6B]">for</span> (<span class="text-[#FF6B6B]">int</span> i = n - <span class="text-[#95E1D3]">1</span>; i > <span class="text-[#95E1D3]">0</span>; i--) {
+            <span class="text-[#FF6B6B]">int</span> temp = arr[<span class="text-[#95E1D3]">0</span>];
+            arr[<span class="text-[#95E1D3]">0</span>] = arr[i];
+            arr[i] = temp;
+            <span class="text-[#4ECDC4]">heapify</span>(arr, i, <span class="text-[#95E1D3]">0</span>);
+        }
+    }
+    
+    <span class="text-[#FF6B6B]">public static void</span> <span class="text-[#4ECDC4]">main</span>(<span class="text-[#FF6B6B]">String</span>[] args) {
+        <span class="text-[#FF6B6B]">int</span>[] arr = {<span class="text-[#95E1D3]">12, 11, 13, 5, 6, 7</span>};
+        <span class="text-[#4ECDC4]">heapSort</span>(arr);
+    }
+}</code></pre>
+        <pre id="code-cpp" class="code-block text-sm leading-relaxed hidden"><code><span class="text-[#888688]">// Heap Sort Algorithm</span>
+<span class="text-[#FF6B6B]">#include</span> <span class="text-[#95E1D3]">&lt;iostream&gt;</span>
+<span class="text-[#FF6B6B]">#include</span> <span class="text-[#95E1D3]">&lt;vector&gt;</span>
+
+<span class="text-[#FF6B6B]">void</span> <span class="text-[#4ECDC4]">heapify</span>(std::vector&lt;<span class="text-[#FF6B6B]">int</span>&gt;& arr, <span class="text-[#FF6B6B]">int</span> n, <span class="text-[#FF6B6B]">int</span> i) {
+    <span class="text-[#FF6B6B]">int</span> largest = i;
+    <span class="text-[#FF6B6B]">int</span> left = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">1</span>;
+    <span class="text-[#FF6B6B]">int</span> right = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">2</span>;
+    
+    <span class="text-[#FF6B6B]">if</span> (left < n && arr[left] > arr[largest])
+        largest = left;
+    <span class="text-[#FF6B6B]">if</span> (right < n && arr[right] > arr[largest])
+        largest = right;
+    
+    <span class="text-[#FF6B6B]">if</span> (largest != i) {
+        std::<span class="text-[#4ECDC4]">swap</span>(arr[i], arr[largest]);
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, largest);
+    }
+}
+
+<span class="text-[#FF6B6B]">void</span> <span class="text-[#4ECDC4]">heapSort</span>(std::vector&lt;<span class="text-[#FF6B6B]">int</span>&gt;& arr) {
+    <span class="text-[#FF6B6B]">int</span> n = arr.size();
+    
+    <span class="text-[#888688]">// Build max heap</span>
+    <span class="text-[#FF6B6B]">for</span> (<span class="text-[#FF6B6B]">int</span> i = n / <span class="text-[#95E1D3]">2</span> - <span class="text-[#95E1D3]">1</span>; i >= <span class="text-[#95E1D3]">0</span>; i--)
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, i);
+    
+    <span class="text-[#888688]">// Extract elements</span>
+    <span class="text-[#FF6B6B]">for</span> (<span class="text-[#FF6B6B]">int</span> i = n - <span class="text-[#95E1D3]">1</span>; i > <span class="text-[#95E1D3]">0</span>; i--) {
+        std::<span class="text-[#4ECDC4]">swap</span>(arr[<span class="text-[#95E1D3]">0</span>], arr[i]);
+        <span class="text-[#4ECDC4]">heapify</span>(arr, i, <span class="text-[#95E1D3]">0</span>);
+    }
+}
+
+<span class="text-[#FF6B6B]">int</span> <span class="text-[#4ECDC4]">main</span>() {
+    std::vector&lt;<span class="text-[#FF6B6B]">int</span>&gt; arr = {<span class="text-[#95E1D3]">12, 11, 13, 5, 6, 7</span>};
+    <span class="text-[#4ECDC4]">heapSort</span>(arr);
+    <span class="text-[#FF6B6B]">return</span> <span class="text-[#95E1D3]">0</span>;
+}</code></pre>
+        <pre id="code-rust" class="code-block text-sm leading-relaxed hidden"><code><span class="text-[#888688]">// Heap Sort Algorithm</span>
+<span class="text-[#FF6B6B]">fn</span> <span class="text-[#4ECDC4]">heapify</span>(arr: &<span class="text-[#FF6B6B]">mut</span> [<span class="text-[#FF6B6B]">i32</span>], n: <span class="text-[#FF6B6B]">usize</span>, i: <span class="text-[#FF6B6B]">usize</span>) {
+    <span class="text-[#FF6B6B]">let mut</span> largest = i;
+    <span class="text-[#FF6B6B]">let</span> left = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">1</span>;
+    <span class="text-[#FF6B6B]">let</span> right = <span class="text-[#95E1D3]">2</span> * i + <span class="text-[#95E1D3]">2</span>;
+    
+    <span class="text-[#FF6B6B]">if</span> left < n && arr[left] > arr[largest] {
+        largest = left;
+    }
+    <span class="text-[#FF6B6B]">if</span> right < n && arr[right] > arr[largest] {
+        largest = right;
+    }
+    
+    <span class="text-[#FF6B6B]">if</span> largest != i {
+        arr.<span class="text-[#4ECDC4]">swap</span>(i, largest);
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, largest);
+    }
+}
+
+<span class="text-[#FF6B6B]">fn</span> <span class="text-[#4ECDC4]">heap_sort</span>(arr: &<span class="text-[#FF6B6B]">mut</span> [<span class="text-[#FF6B6B]">i32</span>]) {
+    <span class="text-[#FF6B6B]">let</span> n = arr.len();
+    
+    <span class="text-[#888688]">// Build max heap</span>
+    <span class="text-[#FF6B6B]">for</span> i <span class="text-[#FF6B6B]">in</span> (<span class="text-[#95E1D3]">0</span>..n / <span class="text-[#95E1D3]">2</span>).<span class="text-[#4ECDC4]">rev</span>() {
+        <span class="text-[#4ECDC4]">heapify</span>(arr, n, i);
+    }
+    
+    <span class="text-[#888688]">// Extract elements</span>
+    <span class="text-[#FF6B6B]">for</span> i <span class="text-[#FF6B6B]">in</span> (<span class="text-[#95E1D3]">1</span>..n).<span class="text-[#4ECDC4]">rev</span>() {
+        arr.<span class="text-[#4ECDC4]">swap</span>(<span class="text-[#95E1D3]">0</span>, i);
+        <span class="text-[#4ECDC4]">heapify</span>(arr, i, <span class="text-[#95E1D3]">0</span>);
+    }
+}
+
+<span class="text-[#FF6B6B]">fn</span> <span class="text-[#4ECDC4]">main</span>() {
+    <span class="text-[#FF6B6B]">let mut</span> arr = [<span class="text-[#95E1D3]">12, 11, 13, 5, 6, 7</span>];
+    <span class="text-[#4ECDC4]">heap_sort</span>(&<span class="text-[#FF6B6B]">mut</span> arr);
+    <span class="text-[#95E1D3]">println!</span>(<span class="text-[#95E1D3]">"{:?}"</span>, arr);
+}</code></pre>
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/heap.js') }}"></script>
+  <div id="alertModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-[#0A0A0A] border-2 border-[#FF6B6B] rounded-lg p-8 max-w-md mx-4">
+      <div class="flex items-center gap-3 mb-4">
+        <i class="fas fa-exclamation-circle text-[#FF6B6B] text-3xl"></i>
+        <h3 class="text-xl font-bold text-[#F2F2F2]">Invalid Input</h3>
+      </div>
+      <p id="alertMessage" class="text-[#888688] mb-6"></p>
+      <button id="closeModal" class="w-full bg-[#DADADA] text-[#000000] px-4 py-2 rounded font-semibold hover:bg-[#F2F2F2] transition-all">
+        Got it
+      </button>
+    </div>
+  </div>
+</body>
+</html>
