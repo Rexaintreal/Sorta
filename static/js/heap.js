@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             heapifyIdx: -1,
             compareIdx: -1,
             sorted: [],
-            message: 'Max heap built - largest element is at root'
+            message: 'Max heap built largest element is at root'
         });
 
         for (let i = n - 1; i > 0; i--) {
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     heapifyIdx: largest,
                     compareIdx: i,
                     sorted: sorted,
-                    message: `Left child ${arr[left]} is larger - updating largest`
+                    message: `Left child ${arr[left]} is larger updating largest`
                 });
             }
         }
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     heapifyIdx: largest,
                     compareIdx: -1,
                     sorted: sorted,
-                    message: `Right child ${arr[right]} is larger - updating largest`
+                    message: `Right child ${arr[right]} is larger updating largest`
                 });
             }
         }
