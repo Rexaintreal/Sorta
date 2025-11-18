@@ -28,7 +28,7 @@ Sorta is hosted on PythonAnywhere at [LINK](https://sorta.pythonanywhere.com/) t
 
 The Demo video where I show all the sorting visualization
 
-**[DEMO]()**
+**[DEMO](https://drive.google.com/file/d/1rzoOXguQQNBkw1TcadBAULH0V0KnQJhy/view?usp=drive_link)**
 
 ---
 
