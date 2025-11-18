@@ -111,11 +111,11 @@ Sorta/
 ## Technical Details
 
 Sorta’s sorting visualizations are built with a lightweight stack and run fully on the client side (the browser)
--**HTML + TailwindCSS** for the layout, UI, and responsive design
--**Vanilla JavaScript** for generating steps handling animations and controlling play/pause/step logic
--**requestAnimationFrame** for smooth frame-based animations during swaps comparisons and transitions
--**DOM rendering** to rebuild and update the array boxes highlights and sorted states
--**Flask** is used only for routing the pages and there is no heavy backend logic or database
+- **HTML + TailwindCSS** for the layout, UI, and responsive design
+- **Vanilla JavaScript** for generating steps handling animations and controlling play/pause/step logic
+- **requestAnimationFrame** for smooth frame-based animations during swaps comparisons and transitions
+- **DOM rendering** to rebuild and update the array boxes highlights and sorted states
+- **Flask** is used only for routing the pages and there is no heavy backend logic or database
 
 All sorting steps (compare swap no swap sorted complete) are created in JavaScript and saved in a array Then the animator just reads each step one by one and updates the screen in real time Every sorting algorithm follows the same pattern
 
