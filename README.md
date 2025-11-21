@@ -129,7 +129,6 @@ MIT [LICENSE](LICENSE).
 
 ## Acknowledgements
 
-- **The Internet**
 - [**GeeksforGeeks**](https://www.geeksforgeeks.org/) — for multi-language example code used as reference  
 
 ---
